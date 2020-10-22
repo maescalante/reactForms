@@ -3,66 +3,43 @@ import Theme from "../context/theme";
 import useForm from "../customHooks/useForm";
 
 import validateForm from "../utils/validateForm";
-
+const props = [
+  { nombre: "nombre", type: "name" },
+  { nombre: "email", type: "email" },
+];
 const SignForm = () => {
   const { handleChange, handleSubmit, error } = useForm(validateForm);
-  console.log(error);
+
+  const renderForm = (props) => {
+    return (
+      <form onSubmit={handleSubmit}>
+        {props.map((campo) => {
+          return (
+            <div>
+              <label htmlFor={campo.nombre}>{campo.nombre}</label>
+              <input
+                type={campo.type}
+                name={campo.nombre}
+                placeholder={campo.nombre}
+                id={campo.nombre}
+                onChange={handleChange}
+              ></input>
+              {error[campo.nombre] && <p>{error[campo.nombre]}</p>}
+            </div>
+          );
+        })}
+
+        <button>Enviar</button>
+      </form>
+    );
+  };
 
   return (
     <div>
       <Theme.Consumer>
-        {(value) => <h1 className={value}>Register Form</h1>}
+        {(value) => <h1 className={value}>Form</h1>}
       </Theme.Consumer>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username: </label>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            id="username"
-            onChange={handleChange}
-          ></input>
-          {error.username && <p>{error.username}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="email">Email: </label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            id="email"
-            onChange={handleChange}
-          ></input>
-          {error.email && <p>{error.email}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            id="password"
-            onChange={handleChange}
-          ></input>
-          {error.password && <p>{error.password}</p>}
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password: </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            id="confirmPassword"
-            onChange={handleChange}
-          ></input>
-          {error.confirmPassword && <p>{error.confirmPassword}</p>}
-        </div>
-        <button>Enviar</button>
-      </form>
+      {renderForm(props)}
     </div>
   );
 };

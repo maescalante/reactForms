@@ -2,12 +2,7 @@ import { useState } from "react";
 
 const useForm = (validateForm) => {
   const [error, setErrors] = useState({});
-  const [values, setValues] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [values, setValues] = useState({});
   const handleChange = (evt) => {
     setValues({
       ...values,
